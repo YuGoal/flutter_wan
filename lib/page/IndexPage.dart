@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterwan/page/SearchTab.dart';
+import 'package:flutterwan/page/ShoppingCartTab.dart';
 
-import 'ArticlePage.dart';
+import 'article/ArticlePage.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -20,8 +22,8 @@ class _IndexPageState extends State<IndexPage> {
 
   final List<Widget> tabBodies = [
     ArticlePage(),
-    ArticlePage(),
-    ArticlePage(),
+    SearchTab(),
+    ShoppingCartTab(),
     ArticlePage()
   ];
 
