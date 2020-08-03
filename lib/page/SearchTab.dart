@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutterwan/model/app_state_model.dart';
-import 'package:flutterwan/product_row_item.dart';
 import 'package:flutterwan/styles/styles.dart';
-import 'package:provider/provider.dart';
 
 import '../search_bar.dart';
 
@@ -30,8 +27,6 @@ class _SearchTabState extends State<SearchTab> {
   }
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<AppStateModel>(context);
-    final results = model.search(_terms);
     return DecoratedBox(
       decoration: const BoxDecoration(color: Styles.scaffoldBackground),
       child: SafeArea(
@@ -39,14 +34,7 @@ class _SearchTabState extends State<SearchTab> {
           children: <Widget>[
             _buildSearchBox(),
             Expanded(
-              child: ListView.builder(
-                itemCount: results.length,
-                itemBuilder: (context, index) => product_row_item(
-                  index: index,
-                  product: results[index],
-                  lastItem: index == results.length - 1,
-                ),
-              ),
+
             ),
           ],
         ),

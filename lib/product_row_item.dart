@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutterwan/model/app_state_model.dart';
+import 'package:flutterwan/model/bean/ArticleBean.dart';
 import 'package:flutterwan/styles/styles.dart';
-import 'package:provider/provider.dart';
 
-import 'model/product.dart';
 
 class product_row_item extends StatelessWidget {
-  final Product product;
+  final DatasBean product;
   final int index;
   final bool lastItem;
 
@@ -25,16 +23,15 @@ class product_row_item extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          ClipRRect(
+          /*ClipRRect(
             borderRadius: BorderRadius.circular(4),
-            child: Image.asset(
-              product.assetName,
-              package: product.assetPackage,
+            child: Image.network(
+              product
               fit: BoxFit.cover,
               width: 76,
               height: 76,
             ),
-          ),
+          ),*/
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -43,31 +40,20 @@ class product_row_item extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    product.name,
+                    product.title,
                     style: Styles.productRowItemName,
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 8),
                   ),
                   Text(
-                    '\$${product.price}',
+                    product.author,
                     style: Styles.productRowItemPrice,
                   ),
                 ],
               ),
             ),
           ),
-          CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: const Icon(
-              CupertinoIcons.plus_circled,
-              semanticLabel: 'Add',
-            ),
-            onPressed: () {
-              final model = Provider.of<AppStateModel>(context);
-              model.addProductToCart(product.id);
-            },
-          )
         ],
       ),
     );

@@ -28,16 +28,20 @@ class CupertinoStoreHomePage extends StatelessWidget {
       tabBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
-            title: Text('Products'),
+            icon: Icon(CupertinoIcons.book),
+            title: Text('文章'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.search),
-            title: Text('Search'),
+            icon: Icon(CupertinoIcons.collections),
+            title: Text('项目'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.shopping_cart),
-            title: Text('Cart'),
+            icon: Icon(CupertinoIcons.tags),
+            title: Text('体系'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.profile_circled),
+            title: Text('我的'),
           ),
         ],
       ),
@@ -59,6 +63,13 @@ class CupertinoStoreHomePage extends StatelessWidget {
             });
             break;
           case 2:
+            returnValue = CupertinoTabView(builder: (context) {
+              return CupertinoPageScaffold(
+                child: ShoppingCartTab(),
+              );
+            });
+            break;
+          case 3:
             returnValue = CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                 child: ShoppingCartTab(),

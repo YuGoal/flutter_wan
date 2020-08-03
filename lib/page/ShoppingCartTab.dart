@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutterwan/model/app_state_model.dart';
-import 'package:flutterwan/model/product.dart';
 import 'package:flutterwan/styles/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -166,46 +165,6 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
             child: _buildDateAndTimePicker(context),
           );
         default:
-          if (model.productsInCart.length > productIndex) {
-            return ShoppingCartItem(
-              index: index,
-              product: model.getProductById(
-                  model.productsInCart.keys.toList()[productIndex]),
-              quantity: model.productsInCart.values.toList()[productIndex],
-              lastItem: productIndex == model.productsInCart.length - 1,
-              formatter: _currencyFormat,
-            );
-          } else if (model.productsInCart.keys.length == productIndex &&
-              model.productsInCart.isNotEmpty) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        'Shipping '
-                        '${_currencyFormat.format(model.shippingCost)}',
-                        style: Styles.productRowItemPrice,
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Tax ${_currencyFormat.format(model.tax)}',
-                        style: Styles.productRowItemPrice,
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Total  ${_currencyFormat.format(model.totalCost)}',
-                        style: Styles.productRowTotal,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            );
-          }
       }
       return null;
     });
@@ -236,13 +195,10 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
 class ShoppingCartItem extends StatelessWidget {
   const ShoppingCartItem({
     @required this.index,
-    @required this.product,
     @required this.lastItem,
     @required this.quantity,
     @required this.formatter,
   });
-
-  final Product product;
   final int index;
   final bool lastItem;
   final int quantity;
@@ -262,16 +218,6 @@ class ShoppingCartItem extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Image.asset(
-                product.assetName,
-                package: product.assetPackage,
-                fit: BoxFit.cover,
-                width: 40,
-                height: 40,
-              ),
-            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -282,24 +228,12 @@ class ShoppingCartItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          product.name,
-                          style: Styles.productRowItemName,
-                        ),
-                        Text(
-                          '${formatter.format(quantity * product.price)}',
-                          style: Styles.productRowItemName,
-                        ),
+
                       ],
                     ),
                     const SizedBox(
                       height: 4,
                     ),
-                    Text(
-                      '${quantity > 1 ? '$quantity x ' : ''}'
-                          '${formatter.format(product.price)}',
-                      style: Styles.productRowItemPrice,
-                    )
                   ],
                 ),
               ),
