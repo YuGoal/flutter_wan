@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutterwan/api/Api.dart';
 import 'package:flutterwan/model/bean/ArticleBean.dart';
 import 'package:flutterwan/model/ProductsRepository.dart';
 import 'package:flutterwan/product_row_item.dart';
@@ -16,13 +15,14 @@ class ArticlePage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             //解析数据
-            var data = json.decode(snapshot.data.toString());
-            List<ArticleBean> products = ArticleBean.fromMap(data).data.datas;
+            ArticleBean articleBean = ArticleBean.fromMap(snapshot.data);
+            List<DatasBean> products = articleBean.data.datas;
+
             return CustomScrollView(
               semanticChildCount: products.length,
               slivers: <Widget>[
                 CupertinoSliverNavigationBar(
-                  largeTitle: Text('玩Android'),
+                  largeTitle: Text('玩Android · 文章'),
                 ),
                 SliverSafeArea(
                   // BEGINNING OF NEW CONTENT

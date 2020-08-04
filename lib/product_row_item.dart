@@ -47,7 +47,14 @@ class product_row_item extends StatelessWidget {
                     padding: EdgeInsets.only(top: 8),
                   ),
                   Text(
-                    product.author,
+                    "${product.niceDate}",
+                    style: Styles.productRowItemPrice,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8),
+                  ),
+                  Text(
+                    product.author.isEmpty?"未知": product.author,
                     style: Styles.productRowItemPrice,
                   ),
                 ],
@@ -65,7 +72,7 @@ class product_row_item extends StatelessWidget {
         row,
         Padding(
           padding: const EdgeInsets.only(
-            left: 100,
+            left: 16,
             right: 16,
           ),
           child: Container(
