@@ -1,85 +1,108 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'SearchTab.dart';
-import 'ShoppingCartTab.dart';
 import 'article/ArticlePage.dart';
 
-class CupertinoStoreApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // This app is designed only to work vertically, so we limit
-    // orientations to portrait up and down.
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-    return CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      home: CupertinoStoreHomePage(),
-    );
-  }
+class CupertinoStoreApp extends StatefulWidget {
+  _CupertinoStoreAppState createState() => _CupertinoStoreAppState();
 }
 
+class _CupertinoStoreAppState extends State<CupertinoStoreApp> {
 
-class CupertinoStoreHomePage extends StatelessWidget {
+  PageController _pageController;
+
+  final List<BottomNavigationBarItem> bottomTabs = [
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.book),
+      title: Text('文章'),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.collections),
+      title: Text('项目'),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.tags),
+      title: Text('体系'),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.profile_circled),
+      title: Text('我的'),
+    ),
+  ];
+  final List<Widget> tabBodies = [
+    ArticlePage(),
+    ArticlePage(),
+    ArticlePage(),
+    ArticlePage()
+  ];
+
+  int currentIndex = 0;
+
+  @override
+  void initState() {
+    _pageController = new PageController(initialPage: this.currentIndex);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.book),
-            title: Text('文章'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.collections),
-            title: Text('项目'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.tags),
-            title: Text('体系'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.profile_circled),
-            title: Text('我的'),
-          ),
-        ],
+    return Scaffold(
+      body: PageView(
+        physics: new AlwaysScrollableScrollPhysics(),
+        controller: _pageController,
+        children: tabBodies,
+        onPageChanged: onPageChanged,
       ),
-      tabBuilder: (context, index) {
-        CupertinoTabView returnValue;
-        switch (index) {
-          case 0:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
-                child: ArticlePage(),
-              );
-            });
-            break;
-          case 1:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
-                child: ArticlePage(),
-              );
-            });
-            break;
-          case 2:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
-                child: ArticlePage(),
-              );
-            });
-            break;
-          case 3:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
-                child: ArticlePage(),
-              );
-            });
-            break;
-        }
-        return returnValue;
-      },
+      backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentIndex,
+        items: bottomTabs,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+            _pageController.animateToPage(index,
+                duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          });
+        },
+      ),
     );
+  }
+
+
+  PageView buildBodyFunction() {
+    //左右滑
+    return PageView(
+      onPageChanged: (int index) {
+        setState(() {
+          currentIndex = index;
+        });
+      },
+      //值为flase时 显示第一个页面 然后从左向右开始滑动
+      //值为true时 显示最后一个页面 然后从右向左开始滑动
+      reverse: false,
+      //滑动到页面底部无回弹效果
+      physics: BouncingScrollPhysics(),
+      //横向滑动切换
+      scrollDirection: Axis.horizontal,
+      //页面控制器
+      controller: _pageController,
+      //所有的子Widget
+      children: tabBodies,
+    );
+  }
+
+  void onPageChanged(int value) {
+    setState(() {
+      this.currentIndex = value;
+    });
   }
 }
 
