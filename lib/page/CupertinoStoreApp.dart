@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'article/ArticleListPage.dart';
 import 'article/ArticlePage.dart';
 
 class CupertinoStoreApp extends StatefulWidget {
@@ -15,7 +16,7 @@ class _CupertinoStoreAppState extends State<CupertinoStoreApp> {
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.book),
-      title: Text('文章'),
+      title: Text('首页'),
     ),
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.collections),
@@ -30,11 +31,11 @@ class _CupertinoStoreAppState extends State<CupertinoStoreApp> {
       title: Text('我的'),
     ),
   ];
-  final List<Widget> tabBodies = [
-    ArticlePage(),
-    ArticlePage(),
-    ArticlePage(),
-    ArticlePage()
+  List<Widget> tabBodies = [
+    ArticleListPage(),
+    ArticleListPage(),
+    ArticleListPage(),
+    ArticleListPage()
   ];
 
   int currentIndex = 0;
